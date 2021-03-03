@@ -14,8 +14,10 @@ PRE_HTML = %{<!DOCTYPE html>
 POST_HTML = %{
     <p>
       <form action="/">
-        <label for="size">Size:</label><br>
-        <input type="number" id="size" name="size"><br>
+        <label for="length">Length in inches:</label><br>
+        <input type="number" id="length" name="length"><br>
+        <label for="circumference">Circumference in inches:</label><br>
+        <input type="number" id="circumference" name="circumference"><br>
         <input type="submit" value="Submit">
       </form>
     </p>
@@ -25,11 +27,13 @@ POST_HTML = %{
  
 get '/' do
   content_type 'text/html'
-  size = request["size"]
+  length = request["length"]
+  girth = request["circumference"]
+
   PRE_HTML + "      <h1>How big is it?</h1>" +  POST_HTML
   
-  if size.to_i.to_s == size 
-    PRE_HTML + "      <h1>How big is it?</h1>" + "You said it was a whole #{size}" + POST_HTML
+  if length.to_i.to_s == length && girth.to_i.to_s == girth
+    PRE_HTML + "      <h1>How big is it?</h1>" + "You said it was #{length} long and #{girth} around. That's better than average!  It contains a volume of #{3.14 * ((girth.to_i / (2*3.14) ** 2) * length.to_i)} cubic inches" + POST_HTML
   else
     PRE_HTML + "      <h1>How big is it?</h1>" +  POST_HTML
   end
