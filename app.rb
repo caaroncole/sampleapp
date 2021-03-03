@@ -17,7 +17,7 @@ POST_HTML = %{</body>
  
 get '/' do
   content_type 'text/html'
-
+  puts request["size"]       # value of some_param parameter. [] is a shortcut to the params hash.
   PRE_HTML + "<h1>Hello, world</h1>" + POST_HTML
 
 end
