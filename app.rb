@@ -29,7 +29,7 @@ get '/' do
   PRE_HTML + "      <h1>How big is it?</h1>" +  POST_HTML
   
   if size.to_i.to_s == size 
-    PRE_HTML + "      <h1>How big is it?</h1>" + "You said it was a whole #{size}" POST_HTML
+    PRE_HTML + "      <h1>How big is it?</h1>" + "You said it was a whole #{size}" + POST_HTML
   else
     PRE_HTML + "      <h1>How big is it?</h1>" +  POST_HTML
   end
