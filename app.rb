@@ -4,21 +4,29 @@ PRE_HTML = %{<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>title</title>
+    <title>Size Checker</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
   <body>
 }
 
-POST_HTML = %{</body>
+POST_HTML = %{
+    <p>
+      <form action="/">
+        <label for="size">Size:</label><br>
+        <input type="number" id="size" name="size"><br>
+        <input type="submit" value="Submit">
+      </form>
+    </p>
+  </body>
 </html>
 }
  
 get '/' do
   content_type 'text/html'
   puts request["size"]       # value of some_param parameter. [] is a shortcut to the params hash.
-  PRE_HTML + "<h1>Hello, world</h1>" + POST_HTML
+  PRE_HTML + "      <h1>How big is it?</h1>" + POST_HTML
 
 end
 
