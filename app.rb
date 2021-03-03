@@ -1,5 +1,11 @@
 require 'sinatra'
 
+class String
+  def is_i?
+     /\A[-+]?\d+\z/ === self
+  end
+end
+
 PRE_HTML = %{<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,7 +36,7 @@ get '/' do
   length = request["length"]
   girth = request["circumference"]
   
-  if length.to_i.to_s == length && girth.to_i.to_s == girth
+  if length.is_i?  && girth.is_i?
     PRE_HTML + "      <h1>How big is it?</h1>" + "You said it was #{length} long and #{girth} around. That's better than average!  It contains a volume of #{3.14 * ((girth.to_i / (2*3.14) ** 2) * length.to_i)} cubic inches" + POST_HTML
   else
     PRE_HTML + "      <h1>How big is it?</h1>" +  POST_HTML
