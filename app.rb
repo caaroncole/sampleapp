@@ -25,8 +25,14 @@ POST_HTML = %{
  
 get '/' do
   content_type 'text/html'
-  puts request["size"]       # value of some_param parameter. [] is a shortcut to the params hash.
-  PRE_HTML + "      <h1>How big is it?</h1>" + POST_HTML
+  size = request["size"]
+  PRE_HTML + "      <h1>How big is it?</h1>" +  POST_HTML
+  
+  if size.to_i.to_s == size 
+    PRE_HTML + "      <h1>How big is it?</h1>" + "You said it was a whole #{size}" POST_HTML
+  else
+    PRE_HTML + "      <h1>How big is it?</h1>" +  POST_HTML
+  end
 
 end
 
@@ -62,3 +68,4 @@ end
 # puts request.secure?             # false (would be true over ssl)
 # puts request.forwarded?          # true (if running behind a reverse proxy)
 # puts request.env                 # raw env hash handed in by Rack
+# puts request["size"]       # value of some_param parameter. [] is a shortcut to the params hash.
