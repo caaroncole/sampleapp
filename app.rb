@@ -37,10 +37,10 @@ POST_HTML = %{
 
 def get_weather(location) 
   conditions = API.current(location).weather_conditions
-  ["time" => conditions.time, "description" => conditions.description, "temperature" => conditions.temperature, 
+  {"time" => conditions.time, "description" => conditions.description, "temperature" => conditions.temperature, 
     "low" => "#{conditions.temp_min} F", "high" => "#{conditions.temp_max} F",
     "humidity" => conditions.humidity, "wind" => conditions.wind
-  ]
+  }
 end
 
 
@@ -51,7 +51,7 @@ get '/' do
   location = "#{city}, #{state}"
   location = "beverly hills, california" if city.nil? || city == ""
   if (city != "" && state != "") || (!city.nil? && !state.nil?)
-    conditions = get_weather(location).first
+    conditions = get_weather(location)
     weather_details = ""
     conditions.each {|k,v| weather_details.concat("<ul><li>#{k.capitalize}: #{v}</li></ul>")}
     PRE_HTML + "      <h1>Weather Lookup</h1>" + "<h3>#{location.split.map(&:capitalize).join(' ')}" + weather_details + POST_HTML
