@@ -34,7 +34,16 @@ POST_HTML = %{
   </body>
 </html>
 }
- 
+
+def get_weather(location) 
+  conditions = API.current(location).weather_conditions
+  ["time" => conditions.time, "description" => conditions.description, "temperature" => conditions.temperature, 
+    "temp_low" => conditions.temp_min, "temp_high" => conditions.temp_max,
+    "humidity" => conditions.humidity, "wind" => conditions.wind
+  ]
+end
+
+
 get '/' do
   content_type 'text/html'
   city = request["city"]
@@ -42,7 +51,10 @@ get '/' do
   location = "#{city}, #{state}"
   location = "beverly hills, california" if city.nil? || city == ""
   if (city != "" && state != "") || (!city.nil? && !state.nil?)
-    PRE_HTML + "      <h1>Weather Lookup</h1>" + "<h3>#{location.split.map(&:capitalize).join(' ')}</h3><ul><li>Temperature is #{API.current(location).weather_conditions.temperature}</li></ul>" + POST_HTML
+    conditions = get_weather(location).first
+    weather_details = ""
+    conditions.each {|k,v| weather_details.concat("<ul><li>#{k}: #{v}</li></ul>")}
+    PRE_HTML + "      <h1>Weather Lookup</h1>" + "<h3>#{location.split.map(&:capitalize).join(' ')}" + weather_details + POST_HTML
   else
     PRE_HTML + "      <h1>Weather Lookup</h1>" +  POST_HTML
   end
