@@ -53,7 +53,7 @@ get '/' do
   if (city != "" && state != "") || (!city.nil? && !state.nil?)
     conditions = get_weather(location).first
     weather_details = ""
-    conditions.each {|k,v| weather_details.concat("<ul><li>#{k}: #{v}</li></ul>")}
+    conditions.each {|k,v| weather_details.concat("<ul><li>#{k.capitalize}: #{v}</li></ul>")}
     PRE_HTML + "      <h1>Weather Lookup</h1>" + "<h3>#{location.split.map(&:capitalize).join(' ')}" + weather_details + POST_HTML
   else
     PRE_HTML + "      <h1>Weather Lookup</h1>" +  POST_HTML
