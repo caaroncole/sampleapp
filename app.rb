@@ -38,7 +38,7 @@ POST_HTML = %{
 def get_weather(location) 
   conditions = API.current(location).weather_conditions
   ["time" => conditions.time, "description" => conditions.description, "temperature" => conditions.temperature, 
-    "temp_low" => conditions.temp_min, "temp_high" => conditions.temp_max,
+    "temp_low" => conditions.temp_min, "High" => "#{conditions.temp_max} F"
     "humidity" => conditions.humidity, "wind" => conditions.wind
   ]
 end
