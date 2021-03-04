@@ -39,7 +39,7 @@ get '/' do
   content_type 'text/html'
   city = request["city"]
   state = request["state"]
-  location = "#{city},#{state}"
+  location = "#{city}, #{state}"
   location = "beverly hills, california" if city.nil? || city == ""
   if (city != "" && state != "") || (!city.nil? && !state.nil?)
     PRE_HTML + "      <h1>Weather Lookup</h1>" + "<h3>#{location.split.map(&:capitalize).join(' ')}</h3><ul><li>Temperature is #{API.current(location).weather_conditions.temperature}</li></ul>" + POST_HTML
