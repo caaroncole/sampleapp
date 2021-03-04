@@ -6,4 +6,5 @@ gem 'thin', '~> 1.8.0'
 # recommended with sinatra
 gem 'rack', '~> 2.2', '>= 2.2.3'
 # webserver rack
+gem 'openweathermap'
 
