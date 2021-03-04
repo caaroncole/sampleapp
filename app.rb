@@ -1,4 +1,8 @@
 require 'sinatra'
+require 'openweathermap'
+
+API_KEY = ENV["API_KEY"]
+API = OpenWeatherMap::API.new(API_KEY, 'en', 'imperial')
 
 class String
   def is_i?
@@ -10,7 +14,7 @@ PRE_HTML = %{<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Size Checker</title>
+    <title>Weatherman</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
@@ -20,10 +24,10 @@ PRE_HTML = %{<!DOCTYPE html>
 POST_HTML = %{
     <p>
       <form action="/">
-        <label for="length">Length in inches:</label><br>
-        <input type="number" id="length" name="length"><br>
-        <label for="circumference">Circumference in inches:</label><br>
-        <input type="number" id="circumference" name="circumference"><br>
+        <label for="city">City:</label><br>
+        <input type="text" id="city" name="city"><br>
+        <label for="statee">State:</label><br>
+        <input type="text" id="state" name="state"><br>
         <input type="submit" value="Submit">
       </form>
     </p>
@@ -33,13 +37,14 @@ POST_HTML = %{
  
 get '/' do
   content_type 'text/html'
-  length = request["length"]
-  girth = request["circumference"]
-  
-  if length.is_i?  && girth.is_i?
-    PRE_HTML + "      <h1>How big is it?</h1>" + "You said it was #{length} long and #{girth} around. That's better than average!  It contains a volume of #{3.14 * ((girth.to_i / (2*3.14) ** 2) * length.to_i)} cubic inches" + POST_HTML
+  city = request["city"]
+  state = request["state"]
+  location = "#{city},#{state}"
+  location = "beverly hills, california" if city.nil? || city == ""
+  if (city != "" && state != "") || (!city.nil? && !state.nil?)
+    PRE_HTML + "      <h1>Weather Lookup</h1>" + "<h3>#{location.split.map(&:capitalize).join(' ')}</h3><ul><li>Temperature is #{API.current(location).weather_conditions.temperature}</li></ul>" + POST_HTML
   else
-    PRE_HTML + "      <h1>How big is it?</h1>" +  POST_HTML
+    PRE_HTML + "      <h1>Weather Lookup</h1>" +  POST_HTML
   end
 
 end
